@@ -5,16 +5,20 @@ rm(list=ls())
 
 library(openCyto)
 
-setwd("C:\\Users\\Laura\\Desktop\\Alice\\")
-fcsFile <- "Panel 1_HMB82-3_001.fcs"
+myDataDir <- "C:\\Users\\Laura\\Desktop\\bCellData\\"
+myGitDir <- "C:\\Users\\Laura\\Desktop\\git\\flowCytometry\\"
+dir.create(file.path(myDataDir,"gatedDataFrames"))
+source(paste(myGitDir,"\\src\\functions.R",sep=""))
+
+fcsFile <- "Panel 1_EJC87-2_002.fcs"
 
 ## READ IN T CELL GATING TEMPLATES
 ##################################
-bcell.gating.template <- gatingTemplate(paste(getwd(),"/gatingTemplates/","gatingtemplate_bcell.csv",sep=""))
+bcell.gating.template <- gatingTemplate(paste(myGitDir,"gatingTemplates\\","gatingtemplate_bcell.csv",sep=""))
 
 ## READ IN FCS FILES, SPLITTING FILES INTO ISOTYPE CONTROL AND OTHER FILES
 ##########################################################################
-samplesFlowSet <- read.flowSet(paste("data\\Blood\\Healthy\\",fcsFile,sep=""),alter.names=TRUE)
+samplesFlowSet <- read.flowSet(paste(myDataDir,"data\\Blood\\Healthy\\",fcsFile,sep=""),alter.names=TRUE)
 sampleNames(samplesFlowSet) <- strsplit(fcsFile,".fcs")[[1]]
 
 ## COMPENSATION
@@ -54,24 +58,33 @@ summary.stats.samples
 ###############
 #plot(samples.gating.set)
 #plotGate(samples.gating.set[[1]],xbin=50,default.y="SSC.A")
-subsets <- getNodes(samples.gating.set[[1]],order="bfs")
-for (i in subsets[c(9,10,11,15,16)]){
-  name = strsplit(i,split="/")[[1]]
-  jpeg(paste(name[length(name)],'.jpg',sep=""))
-  plotGate(samples.gating.set[[1]], i,
-           sample.ratio=0.5,
-           #xbin=100,
-           default.y="SSC.A",
-           par.settings=list( cex=10,
-                              axis.text = list(cex = 1.5),
-                              gate.text = list( background = list(fill = "white"),cex = 1.5),
-                              #panel.background = list(col = "white"),
-                              par.xlab.text = list(cex = 1.5),
-                              par.ylab.text = list(cex = 1.5))
-  )
-  dev.off()
-}
+# subsets <- getNodes(samples.gating.set[[1]],order="bfs")
+# for (i in subsets[c(9,10,11,15,16)]){
+#   name = strsplit(i,split="/")[[1]]
+#   jpeg(paste(name[length(name)],'.jpg',sep=""))
+#   plotGate(samples.gating.set[[1]], i,
+#            sample.ratio=0.5,
+#            #xbin=100,
+#            default.y="SSC.A",
+#            par.settings=list( cex=10,
+#                               axis.text = list(cex = 1.5),
+#                               gate.text = list( background = list(fill = "white"),cex = 1.5),
+#                               #panel.background = list(col = "white"),
+#                               par.xlab.text = list(cex = 1.5),
+#                               par.ylab.text = list(cex = 1.5))
+#   )
+#   dev.off()
+# }
 
-## SAVE GATING SET TO DISK
-##########################
-#save_gs(samples.gating.set,path=paste(getwd(),"/gatingSets/",sampleNames(samplesFlowSet),sep=""))
+## SAVE GATING SET AS DATAFRAME
+###############################
+metadata <- getData(samples.gating.set)[[1]]
+gsName <- description(metadata)$GUID
+getNodes( samples.gating.set, order="bfs")
+subsets <- getNodes( samples.gating.set, order="bfs", path="auto")
+df <- get.underlying.data( subsets[4:length(subsets)], samples.gating.set, metadata)
+write.csv(df,
+          file = paste(myDataDir,"gatedDataFrames\\",gsName, sep=""),
+          row.names=FALSE,
+          quote = FALSE)
+

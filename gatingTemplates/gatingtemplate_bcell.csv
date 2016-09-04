@@ -1,0 +1,14 @@
+alias,pop,parent,dims,gating_method,gating_args,collapseDataForGating,groupBy,preprocessing_method,preprocessing_args
+nonDebris,nonDebris,root,FSC.A,mindensity,"gate_range=c(0,100000)",,,,
+singlets,singlets,nonDebris,"FSC.A,SSC.A",singletGate,,,,,
+Lymphocytes,Lymphocytes,singlets,"FSC.A,SSC.A",flowClust,"K=2,target=c(1e5,5e4),randomStart=0",,,prior_flowClust,K=2
+CD3-,CD3-,Lymphocytes,CD3,flowClust,"neg=1,pos=1",,,,
+Bcells,CD19+CD20+,CD3-,"CD19,CD20",mindensity,,,,,
+memBcells,CD27+,Bcells,CD27,mindensity,,,,,
+immBcells,CD27-,Bcells,CD27,refGate,memBcells,,,,
+transitional,transitional,Bcells,"CD38,CD24",flowClust,"K=4,transitional=TRUE,target=c(3e3,3e3),quantile=0.99,translation=0.55",,,,
+transitionalImm,transitionalImm,immBcells,"CD38,CD24",refGate,transitional,,,,
+transitionalMem,transitionalMem,memBcells,"CD38,CD24",refGate,transitional,,,,
+nonTransitionalMem,nonTransitionalMem,memBcells,,boolGate,!transitionalMem,,,,
+innateMem,IgM+,nonTransitionalMem,IgM,mindensity,,,,,
+classSwitchedMem,IgM-,nonTransitionalMem,IgM,refGate,innateMem,,,,

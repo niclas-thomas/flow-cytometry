@@ -1,4 +1,3 @@
-
 ## FUNCTIONS
 ############
 get.ab.names <- function(data, metadata){
@@ -9,7 +8,7 @@ get.ab.names <- function(data, metadata){
   return(ab.names)
 }
 
-get.underlying.data <- function( subsets, gatingSet, metadata, myMarkers){
+get.underlying.data <- function( subsets, gatingSet, metadata){
   total.data <- c()
   for (i in c(1:length(subsets))){
     flow.data <- lapply(gatingSet,getData,y=subsets[i])
@@ -32,13 +31,13 @@ get.underlying.data <- function( subsets, gatingSet, metadata, myMarkers){
       total.data <- rbind(total.data,subset.data)
     }
   }
-  return(total.data[,c("subset",myMarkers)])
+  return(total.data)
   
 }
 
 getPCAModel <- function(data){
   
-  pca <- prcomp(~., data=data[,-c(1)], cor = TRUE, scale=T)
+  pca <- prcomp(~., data=data, cor = TRUE, scale=T)
   return(pca)
   
 }
@@ -54,12 +53,12 @@ pcaPredict <- function(data, labels, pca){
   
 }
 
-plotPCA <- function( pred, subsets, size, pathAndFilename){
+plotPCA <- function( pred, pathAndFilename){
   
   g <- ggplot(pred, aes(PC1, PC2)) +
     geom_point(aes(color=subset),size=2)+
     theme_bw()+
-    scale_color_discrete(name="B Cell Subset")+#,
+    scale_color_discrete(name="Cell Population")+#,
     #                     #breaks=c(1:length(subsets)),
     #                     labels=subsets)+
     guides(colour = guide_legend(override.aes = list(size=4)))
@@ -71,9 +70,9 @@ getKMeans <- function( data, varNames, pathAndFilename){
   
   res <- flowMeans( data, varNames, Mahalanobis = FALSE )
   print(paste("Number of clusters found: ",length(table(res@Label)),sep=""))
-  png( paste(pathAndFilename,".png",sep=""))
-  plot(data, res, varNames, pch='.', cex=3)
-  dev.off()
+  #png( paste(pathAndFilename,".png",sep=""))
+  #plot(data, res, varNames, pch='.', cex=3)
+  #dev.off()
   return(res)
   
 }
