@@ -12,3 +12,10 @@ Suite of functions and pipelines to perform automated gating and clustering of f
 5. Manually change the variables ```myDataDir``` and ```myCodeDir``` in ```pipeline/autoGating.R``` to reflect your particular system and run this script.
 6. Manually change the variables ```myDataDir``` and ```myCodeDir``` in ```pipeline/autoClustering.R``` to reflect your particular system and run this script.
 7. Manually change the variables ```myDataDir``` and ```myCodeDir``` in ```pipeline/pca.R``` to reflect your particular system and run this script.
+
+## Notes
+
+Use ```plot.gates`` and ```plot.strategy``` in ```pipeline/autoGating.R``` to define whether you want to plot gating strategy and sample gated plots. Note that plotting gated plots is quite
+RAM intensive, so on lower spec machines it may not be possible to use this feature. If so, ensure that ```plot.gates==FALSE```.
+
+Steps 5, 6 and 7 will create new folders in ```myDataDir``` to save the results to. Once the the script at each step has finished, output will be saved in subfolders within ```myDataDir``. Figures will be saved to the ```figures``` folder.
