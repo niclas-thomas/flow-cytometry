@@ -4,6 +4,10 @@ Suite of functions and pipelines to perform automated gating and clustering of f
 
 ## Running flowCytometry
 
-1. Manually change the variables ```myDataDir``` and ```myGitDir``` for your particular system.
-2. Check that the gating template in the folder gatingTemplates is suitable for your flow experiment.
-3. Run pipeline scripts in the order ```autoGating.R```, ```autoClustering.R```, ```pca.R```.
+1. Download R [here](http://star-www.st-andrews.ac.uk/cran/) and RStudio [here](https://www.rstudio.com/products/rstudio/download3/)
+2. Download ```flowCytometry``` and unzip the folder.
+3. Run ```src/setup.R``` to install the required packages.
+4. Check that the gating strategy in ```gatingtemplate_bcell.csv``` in the folder ```gatingTemplates``` is suitable for your flow experiment.
+5. Manually change the variables ```myDataDir``` and ```myCodeDir``` in ```pipeline/autoGating.R``` to reflect your particular system.
+6. Manually change the variables ```myDataDir``` and ```myCodeDir``` in ```pipeline/autoClustering.R``` to reflect your particular system.
+7. Manually change the variables ```myDataDir``` and ```myCodeDir``` in ```pipeline/pca.R``` to reflect your particular system.

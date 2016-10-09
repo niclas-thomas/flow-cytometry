@@ -1,10 +1,21 @@
+## SET FOLDER LOCATIONS
+## AND THE FILE TO ANALYSE
+##########################
+
 rm(list=ls())
 
-library(ggplot2)
 myDataDir <- "C:\\Users\\Laura\\Desktop\\bCellData\\"
-myGitDir <- "C:\\Users\\Laura\\Desktop\\git\\flowCytometry\\"
+myCodeDir <- "C:\\Users\\Laura\\Desktop\\git\\flowCytometry\\"
+
+## PROJECT CELL POPULATIONS
+## IN 2-D SPACE USING PCA
+#########################
+
+library(ggplot2)
+
+options(warn=-1)
 dir.create(file.path(myDataDir,"figures"))
-source(paste(myGitDir,"\\src\\functions.R",sep=""))
+source(paste(myCodeDir,"\\src\\functions.R",sep=""))
 
 myMarkers <- c("CD19","CD20","CD27","IgM","IgD","CD24","CD38")
 folderFiles <- list.files(paste(myDataDir,"clusteredDataFrames\\",sep=""))

@@ -1,12 +1,21 @@
+## SET FOLDER LOCATIONS
+## AND THE FILE TO ANALYSE
+##########################
+
 rm(list=ls())
+
+myDataDir <- "C:\\Users\\Laura\\Desktop\\bCellData\\"
+myCodeDir <- "C:\\Users\\Laura\\Desktop\\git\\flowCytometry\\"
+
+## BEGIN AUTO CLUSTERING
+########################
 
 library(flowMeans)
 
-myDataDir <- "C:\\Users\\Laura\\Desktop\\bCellData\\"
-myGitDir <- "C:\\Users\\Laura\\Desktop\\git\\flowCytometry\\"
+options(warn=-1)
 dir.create(file.path(myDataDir,"clusteredDataFrames"))
 dir.create(file.path(myDataDir,"figures"))
-source(paste(myGitDir,"\\src\\functions.R",sep=""))
+source(paste(myCodeDir,"\\src\\functions.R",sep=""))
 
 folderFiles <- list.files(paste(myDataDir,"gatedDataFrames",sep=""))
 myMarkers <- c("CD19","CD20","CD27","IgM","IgD","CD24","CD38")
@@ -40,7 +49,7 @@ for (k in c(1)){
   
   appendedData <- cbind(trainData, clusterLabels)
   write.csv(appendedData,
-            file = paste(myDataDir,"clusteredDataFrames\\",folderFiles[k],"_clustered",sep=""),
+            file = paste(myDataDir,"clusteredDataFrames\\clustered_",folderFiles[k],sep=""),
             row.names=FALSE,
             quote = FALSE)
 }
@@ -63,7 +72,7 @@ for (k in c(testStart:testEnd)){
   
   appendedData <- cbind(testData, clusterLabels)
   write.csv(appendedData,
-            file = paste(myDataDir,"clusteredDataFrames\\",folderFiles[k],"_clustered",sep=""),
+            file = paste(myDataDir,"clusteredDataFrames\\clustered_",folderFiles[k],sep=""),
             row.names=FALSE,
             quote = FALSE)
 
