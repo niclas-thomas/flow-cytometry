@@ -4,7 +4,7 @@ Suite of functions and pipelines to perform automated gating and clustering of f
 
 ## Running flowCytometry
 
-1. Download R [here](http://star-www.st-andrews.ac.uk/cran/) and RStudio [here](https://www.rstudio.com/products/rstudio/download3/)
+1. Download R [here](http://star-www.st-andrews.ac.uk/cran/) and RStudio [here](https://www.rstudio.com/products/rstudio/download3/) and install them both in that order.
 2. Download ```flowCytometry``` and unzip the folder.
 3. Open RStudio.
 3. Open and run ```src/setup.R``` to install the required packages.

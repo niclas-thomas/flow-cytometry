@@ -23,8 +23,10 @@ myMarkers <- c("CD19","CD20","CD27","IgM","IgD","CD24","CD38")
 ## LOOP OVER DATAFRAMES IN FOLDER
 #################################
 results <- c()
+testStart = 2
+testEnd = length(folderFiles)
 
-for (k in c(1)){
+for (k in c(1:testStart)){
 
   trainData <- read.csv(file=paste(myDataDir,"gatedDataFrames\\",folderFiles[k],sep=""),header=TRUE)
 
@@ -53,9 +55,6 @@ for (k in c(1)){
             row.names=FALSE,
             quote = FALSE)
 }
-
-testStart = 2
-testEnd = 2
 
 for (k in c(testStart:testEnd)){
   
